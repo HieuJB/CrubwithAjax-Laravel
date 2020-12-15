@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 Route::get('/index',[dataController::class,'showdata']);
 Route::post('/ss',[dataController::class,'add_data_DB'])->name('add.form');
+Route::get('/edit/{id}',[dataController::class,'find_id_edit']);

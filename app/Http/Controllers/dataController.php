@@ -19,4 +19,8 @@ class dataController extends Controller
         $Data->save();
         return Response()->json($Data);
     }
+    public function find_id_edit(Request $req){
+        $Data_find = model_table_users::find($req->id);
+        return Response()->json($Data_find);
+    }
 }
