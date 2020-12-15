@@ -31,4 +31,9 @@ class dataController extends Controller
         $Data_edit->save();
         return Response()->json($Data_edit);
     }
+    public function remove_data_form(Request $req){
+        $Data_remove = model_table_users::find($req->id);
+        $Data_remove->delete();
+        return Response()->json($Data_remove);
+    }
 }

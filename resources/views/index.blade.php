@@ -98,6 +98,7 @@
                 <th>Age</th>
                 <th>Email</th>
                 <th>Edit</th>
+                <th>Remove</th>
             </tr>
         </thead>
         <tbody>
@@ -106,7 +107,8 @@
                 <td>{{$users->name}}</td>
                 <td>{{$users->age}}</td>
                 <td>{{$users->email}}</td>
-                <td><a herf="javascript:void(0)" onclick="edit_Data({{$users->id}})"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal-edit">Edit</button></a></td>
+                <td><a herf="javascript:void(0)" onclick="edit_Data({{$users->id}})"><button type="button" class="btn btn-primary" >Edit</button></a></td>
+                <td><a herf="javascript:void(0)" onclick="remove_Data({{$users->id}})"><button type="button" class="btn btn-primary" >Remove</button></a></td>
             </tr>
         @endforeach
         </tbody>
@@ -150,6 +152,7 @@
                 $('#name-edit').val(edit_data_form.name);
                 $('#age-edit').val(edit_data_form.age);
                 $('#email-edit').val(edit_data_form.email);
+                $('#exampleModal-edit').modal('show');
             });
         };
         $('#edit-data-form').submit(function(e){
@@ -177,5 +180,20 @@
                     $("#exampleModal-edit").modal('hide');              
                 }
             })
-        })
+        });
+        function remove_Data(id){
+            var _token=$('input[name=_token]').val();
+            if(confirm("Delete")){
+                $.ajax({
+                    url:'/delete/'+id,
+                    type:'DELETE',
+                    data:{
+                        _token : _token
+                    },
+                    success:function(remove_Data_form){
+                        $('#id'+id).remove();
+                    }
+                });
+            }
+        }
 </script>
