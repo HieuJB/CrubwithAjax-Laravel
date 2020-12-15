@@ -102,7 +102,7 @@
         </thead>
         <tbody>
         @foreach($users as $users)
-            <tr>
+            <tr id="id{{$users->id}}">
                 <td>{{$users->name}}</td>
                 <td>{{$users->age}}</td>
                 <td>{{$users->email}}</td>
@@ -116,12 +116,11 @@
 <script type="text/javascript">
         $("#add_data").submit(function(e){
             e.preventDefault();
-            let name = $('#name').val();
-            let age = $('#age').val();
-            let email = $('#email').val();
-            let _token = $("input[name=_token]").val();
-           
-
+            var name = $('#name').val();
+            var age = $('#age').val();
+            var email = $('#email').val();
+            var _token = $("input[name=_token]").val();
+    
             $.ajax({
                 url:"{{route('add.form')}}",
                 type:"POST",
@@ -136,8 +135,6 @@
                         $('#add_data_TB tbody').prepend('<tr><td>'+add_data_DB.name+'</td><td>'+add_data_DB.age+'</td><td>'+add_data_DB.email+'</td>  </tr>')
                         $("#add_data")[0].reset();
                         $("#exampleModal").modal('hide');
-                      
-
                     }
                 },
                 error:function(add_data_DB_err){
@@ -147,13 +144,38 @@
                 }
             });
         });
-        function edit_Data(id){
+    function edit_Data(id){
             $.get('/edit/'+id,function(edit_data_form){
                 $('#id').val(edit_data_form.id);
                 $('#name-edit').val(edit_data_form.name);
                 $('#age-edit').val(edit_data_form.age);
                 $('#email-edit').val(edit_data_form.email);
-                $('#exampleModal-edit').modal('toggle');
             });
-        }
+        };
+        $('#edit-data-form').submit(function(e){
+            e.preventDefault();
+            var id = $('#id').val();
+            var name = $('#name-edit').val();
+            var age = $('#age-edit').val();
+            var email =$('#email-edit').val();
+            let _token = $("input[name=_token]").val();
+            $.ajax({
+                url:"{{route('edit.data')}}",
+                type:"PUT",
+                data:{
+                    id:id,
+                    name:name,
+                    age:age,
+                    email:email,
+                    _token:_token
+                },
+                success:function(edit_data_suc){
+                    $('#id' + edit_data_suc.id + ' td:nth-child(1)').text(edit_data_suc.name);
+                    $('#id' + edit_data_suc.id + ' td:nth-child(2)').text(edit_data_suc.age);
+                    $('#id' + edit_data_suc.id + ' td:nth-child(3)').text(edit_data_suc.email);
+                    $("#edit-data-form")[0].reset(); 
+                    $("#exampleModal-edit").modal('hide');              
+                }
+            })
+        })
 </script>

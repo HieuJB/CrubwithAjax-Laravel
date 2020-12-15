@@ -23,4 +23,12 @@ class dataController extends Controller
         $Data_find = model_table_users::find($req->id);
         return Response()->json($Data_find);
     }
+    public function edit_data_form(Request $req){
+        $Data_edit = model_table_users::find($req->id);
+        $Data_edit->name=$req->name;
+        $Data_edit->age=$req->age;
+        $Data_edit->email=$req->email;
+        $Data_edit->save();
+        return Response()->json($Data_edit);
+    }
 }
