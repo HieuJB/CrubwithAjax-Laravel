@@ -1,0 +1,13 @@
+.table{
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    text-align: center;
+    border: 1px solid gray;
+    position: relative;   
+    margin-top: 2%;
+}
+.btn-primary{
+    margin-top: 3%;
+    margin-left: 25%;
+}
