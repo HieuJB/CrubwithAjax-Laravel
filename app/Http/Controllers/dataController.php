@@ -9,7 +9,8 @@ class dataController extends Controller
 {
     public function showdata(){
         $users = model_table_users::orderBy('id','DESC')->get();
-        return view('/index',compact('users'));
+        $users_max = model_table_users::max('id');
+        return view('/index',compact('users'),compact('users_max'));
     }   
     public function add_data_DB(Request $req){
         $Data=new model_table_users();
@@ -30,6 +31,7 @@ class dataController extends Controller
         $Data_edit->email=$req->email;
         $Data_edit->save();
         return Response()->json($Data_edit);
+        
     }
     public function remove_data_form(Request $req){
         $Data_remove = model_table_users::find($req->id);

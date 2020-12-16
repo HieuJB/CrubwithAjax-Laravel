@@ -15,6 +15,7 @@
     <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
     ADD-DATA
     </button>
+<div class="" id="success" role="alert"></div>
 
 <!-- Modal -->
 
@@ -67,7 +68,7 @@
              @csrf
                 <div class="modal-body">                 
                     <div class="form-group">
-                    <input type="hidden" id="id">
+                    <input type="text" id="id">
                     <label for="">Tên</label>
                     <input type="text"
                         class="form-control" name="" id="name-edit" aria-describedby="helpId" placeholder="">
@@ -108,7 +109,7 @@
                 <td>{{$users->age}}</td>
                 <td>{{$users->email}}</td>
                 <td><a herf="javascript:void(0)" onclick="edit_Data({{$users->id}})"><button type="button" class="btn btn-primary" >Edit</button></a></td>
-                <td><a herf="javascript:void(0)" onclick="remove_Data({{$users->id}})"><button type="button" class="btn btn-primary" >Remove</button></a></td>
+                <td><a herf="javascript:void(0)" onclick="remove_Data({{$users->id}})"><button type="button" class="btn btn-danger" >Remove</button></a></td>
             </tr>
         @endforeach
         </tbody>
@@ -122,7 +123,7 @@
             var age = $('#age').val();
             var email = $('#email').val();
             var _token = $("input[name=_token]").val();
-    
+            $('#success').show();
             $.ajax({
                 url:"{{route('add.form')}}",
                 type:"POST",
@@ -134,9 +135,14 @@
                 },
                 success:function(add_data_DB){
                     if(add_data_DB){
-                        $('#add_data_TB tbody').prepend('<tr><td>'+add_data_DB.name+'</td><td>'+add_data_DB.age+'</td><td>'+add_data_DB.email+'</td>  </tr>')
+                        $('#add_data_TB tbody').prepend('<tr><td>'+add_data_DB.name+'</td><td>'+add_data_DB.age+'</td><td>'+add_data_DB.email+'</td><td><a herf="javascript:void(0)"><button type="button" onclick="edit_Data({{$users_max}}+1)" class="btn btn-primary">Edit</button></a></td><td><a herf="javascript:void(0)"><button type="button" onclick="remove_Data({{$users_max}}+1)" class="btn btn-danger">Remove</button></a></td></tr>')
                         $("#add_data")[0].reset();
                         $("#exampleModal").modal('hide');
+                        $("#success").html('<p>Thêm thành công</p>');
+                        $("#success").addClass("alert alert-success");
+                        timer = setTimeout(function(){
+                            $('#success').hide();
+                        }, 4000);
                     }
                 },
                 error:function(add_data_DB_err){
@@ -178,6 +184,9 @@
                     $('#id' + edit_data_suc.id + ' td:nth-child(3)').text(edit_data_suc.email);
                     $("#edit-data-form")[0].reset(); 
                     $("#exampleModal-edit").modal('hide');              
+                },
+                error:function(edit_data_err){
+                    alert('dasdsaasddas');
                 }
             })
         });
@@ -195,5 +204,5 @@
                     }
                 });
             }
-        }
+        };
 </script>
